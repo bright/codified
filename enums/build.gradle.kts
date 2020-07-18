@@ -1,19 +1,11 @@
 plugins {
     kotlin("jvm")
-    `maven-publish`
+    id("default-java-publish")
 }
 
 java {
     withJavadocJar()
     withSourcesJar()
-}
-
-publishing {
-    publications {
-        register<MavenPublication>("default") {
-            from(components["java"])
-        }
-    }
 }
 
 dependencies {
