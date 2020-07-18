@@ -1,13 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.api.tasks.testing.Test
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin"))
-    }
+plugins {
+    kotlin("jvm") version Versions.kotlin
 }
 
 allprojects {
@@ -29,10 +24,6 @@ allprojects {
             events("passed", "skipped", "failed")
         }
     }
-}
-
-plugins {
-    kotlin("jvm") version Versions.kotlin
 }
 
 dependencies {
