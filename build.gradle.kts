@@ -11,13 +11,16 @@ buildscript {
 }
 
 allprojects {
+    group = Config.group
+    version = Config.version
+
     repositories {
         mavenCentral()
         maven(Repositories.bintrayBright)
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.6"
+        kotlinOptions.jvmTarget = Config.jvmTarget
     }
 
     tasks.withType<Test> {
@@ -31,9 +34,6 @@ allprojects {
 plugins {
     kotlin("jvm") version Versions.kotlin
 }
-
-group = Config.group
-version = "1.0"
 
 dependencies {
     implementation(kotlin("stdlib"))

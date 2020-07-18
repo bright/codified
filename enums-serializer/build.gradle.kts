@@ -1,10 +1,21 @@
 plugins {
     kotlin("jvm")
-    kotlin("plugin.serialization") version "1.3.72"
+    kotlin("plugin.serialization") version Versions.kotlin
+    id("maven-publish")
 }
 
-group = Config.group
-version = "1.0"
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("default") {
+            from(components["java"])
+        }
+    }
+}
 
 dependencies {
     implementation(kotlin("stdlib"))

@@ -1,9 +1,20 @@
 plugins {
     kotlin("jvm")
+    id("maven-publish")
 }
 
-group = Config.group
-version = "1.0"
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("default") {
+            from(components["java"])
+        }
+    }
+}
 
 dependencies {
     implementation(kotlin("stdlib"))
