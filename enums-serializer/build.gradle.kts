@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version Versions.kotlin
-    id("maven-publish")
+    `maven-publish`
 }
 
 java {

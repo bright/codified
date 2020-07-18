@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.Test
 
 plugins {
     kotlin("jvm") version Versions.kotlin
+    `maven-publish`
 }
 
 allprojects {
@@ -22,6 +23,19 @@ allprojects {
         useJUnitPlatform()
         testLogging {
             events("passed", "skipped", "failed")
+        }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("default") {
+            from(components["java"])
         }
     }
 }
