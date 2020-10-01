@@ -8,11 +8,12 @@ import pl.miensol.shouldko.shouldNotEqual
 class CodifiedEnumTest {
 
     companion object {
-        const val FOO_CODE = "oof"
-        const val BAR_CODE = "rab"
+        private const val FOO_CODE = "oof"
+        private const val BAR_CODE = "rab"
+        private val ALL_CODES = listOf(FOO_CODE, BAR_CODE)
     }
 
-    enum class StringEnum(override val code: String) : Codified<String> {
+    private enum class StringEnum(override val code: String) : Codified<String> {
         FOO(FOO_CODE), BAR(BAR_CODE)
     }
 
@@ -69,5 +70,17 @@ class CodifiedEnumTest {
         val codified1 = StringEnum.BAR.codifiedEnum()
         val codified2 = StringEnum.FOO.codifiedEnum()
         codified1.shouldNotEqual(codified2)
+    }
+
+    @Test
+    fun `all enum codes should be extracted manually`() {
+        val extractedCodes = StringEnum.values().map(Codified<String>::code)
+        extractedCodes.shouldEqual(ALL_CODES)
+    }
+
+    @Test
+    fun `all enum codes should be extracted automatically`() {
+        val extractedCodes = codes<StringEnum, String>()
+        extractedCodes.shouldEqual(ALL_CODES)
     }
 }

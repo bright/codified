@@ -27,5 +27,5 @@ fun <T, C> T.codifiedEnum(): CodifiedEnum<T, C> where T : Codified<C>, T : Enum<
 inline fun <reified T> String.codifiedEnum(): CodifiedEnum<T, String> where T : Enum<T>, T : Codified<String> =
     CodifiedEnum.decode(this)
 
-
-
+inline fun <reified T, C> codes(): List<C> where T : Codified<C>, T : Enum<T> =
+    enumValues<T>().map(Codified<C>::code)
