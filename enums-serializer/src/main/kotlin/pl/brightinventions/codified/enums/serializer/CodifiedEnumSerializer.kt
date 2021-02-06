@@ -1,11 +1,12 @@
 package pl.brightinventions.codified.enums.serializer
 
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import pl.brightinventions.codified.Codified
 import pl.brightinventions.codified.enums.CodifiedEnum
 
-@Serializer(forClass = CodifiedEnum::class)
 class CodifiedEnumSerializer<T, C>(
     enumValues: Array<T>,
     private val codeSerializer: KSerializer<C>
@@ -16,7 +17,7 @@ class CodifiedEnumSerializer<T, C>(
     private val enumValuesByCode = enumValues.associateBy { it.code }
 
     override fun deserialize(decoder: Decoder): CodifiedEnum<T, C> {
-        val code = decoder.decode(codeSerializer)
+        val code = decoder.decodeSerializableValue(codeSerializer)
         val valueForCode = enumValuesByCode[code]
         return if (valueForCode == null) {
             CodifiedEnum.Unknown(code)
@@ -27,8 +28,8 @@ class CodifiedEnumSerializer<T, C>(
 
     override fun serialize(encoder: Encoder, value: CodifiedEnum<T, C>) {
         when (value) {
-            is CodifiedEnum.Known -> encoder.encode(codeSerializer, value.value.code)
-            is CodifiedEnum.Unknown -> encoder.encode(codeSerializer, value.value)
+            is CodifiedEnum.Known -> encoder.encodeSerializableValue(codeSerializer, value.value.code)
+            is CodifiedEnum.Unknown -> encoder.encodeSerializableValue(codeSerializer, value.value)
         }
     }
 }

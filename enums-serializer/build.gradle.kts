@@ -12,7 +12,8 @@ java {
 dependencies {
     implementation(kotlin("stdlib"))
     api(project(":enums"))
-    api(Dependencies.serialization)
+    api(Dependencies.serializationCore)
+    testImplementation(Dependencies.serializationJson)
     testImplementation(Dependencies.junit)
     testImplementation(Dependencies.shouldko)
 }

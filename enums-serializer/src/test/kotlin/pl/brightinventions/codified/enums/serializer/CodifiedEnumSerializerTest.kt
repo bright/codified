@@ -2,9 +2,7 @@ package pl.brightinventions.codified.enums.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import org.junit.jupiter.api.Test
 import pl.brightinventions.codified.Codified
 import pl.brightinventions.codified.enums.CodifiedEnum
@@ -30,13 +28,13 @@ class CodifiedEnumSerializerTest {
         val stringEnum: CodifiedEnum<StringEnum, String>
     )
 
-    private val json = Json(JsonConfiguration.Stable)
+    private val json = Json.Default
 
     @Test
     fun `codified enum should be represented by the its code in JSON`() {
         StringEnum.values().forEach {
             val wrapper = StringEnumWrapper(it.codifiedEnum())
-            val string = json.stringify(StringEnumWrapper.serializer(), wrapper)
+            val string = json.encodeToString(StringEnumWrapper.serializer(), wrapper)
             string.shouldEqual("{\"stringEnum\":\"${it.code}\"}")
         }
     }
@@ -46,7 +44,7 @@ class CodifiedEnumSerializerTest {
         val unknownCode = "unknownCode"
         val unknownCodified = unknownCode.codifiedEnum<StringEnum>()
         val wrapper = StringEnumWrapper(unknownCodified)
-        val string = json.stringify(StringEnumWrapper.serializer(), wrapper)
+        val string = json.encodeToString(StringEnumWrapper.serializer(), wrapper)
         string.shouldEqual("{\"stringEnum\":\"$unknownCode\"}")
     }
 
@@ -54,7 +52,7 @@ class CodifiedEnumSerializerTest {
     fun `codified enum in JSON should be parsed`() {
         StringEnum.values().forEach {
             val stringified = "{\"stringEnum\":\"${it.code}\"}"
-            val parsedWrapper = json.parse(StringEnumWrapper.serializer(), stringified)
+            val parsedWrapper = json.decodeFromString(StringEnumWrapper.serializer(), stringified)
             val expectedWrapper = StringEnumWrapper(it.codifiedEnum())
             parsedWrapper.shouldEqual(expectedWrapper)
         }
@@ -65,7 +63,7 @@ class CodifiedEnumSerializerTest {
         val unknownCode = "unknownCode"
         val unknownCodified = unknownCode.codifiedEnum<StringEnum>()
         val stringified = "{\"stringEnum\":\"$unknownCode\"}"
-        val parsedWrapper = json.parse(StringEnumWrapper.serializer(), stringified)
+        val parsedWrapper = json.decodeFromString(StringEnumWrapper.serializer(), stringified)
         val expectedWrapper = StringEnumWrapper(unknownCodified)
         parsedWrapper.shouldEqual(expectedWrapper)
     }
