@@ -1,3 +1,3 @@
 object Repositories {
-    const val bintrayBright = "https://dl.bintray.com/brightinventions/maven"
+    const val jitpack = "https://jitpack.io/"
 }

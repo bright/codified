@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.api.tasks.testing.Test
 
 plugins {
     kotlin("jvm") version Versions.kotlin
@@ -12,7 +11,7 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven(Repositories.bintrayBright)
+        maven(Repositories.jitpack)
     }
 
     tasks.withType<KotlinCompile> {
