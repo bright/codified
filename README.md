@@ -4,7 +4,7 @@
 
 Facilitates objects "codification".
 
-At the moment, the main application of this library is making it easier to encode and decode enum classes.
+At the moment, the main application of this library is making it easier to encode and decode enum classes in a forward compatible way.
 
 ## Installation and usage ##
 
