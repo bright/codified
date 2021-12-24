@@ -1,7 +1,6 @@
 package pl.brightinventions.codified.enums.serializer
 
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import pl.brightinventions.codified.enums.codifiedEnum
 import pl.miensol.shouldko.shouldEqual
@@ -137,13 +136,7 @@ class CodifiedEnumSerializerTest {
         string.shouldEqual(expectedBasket)
     }
 
-    /**
-    TODO This test won't pass because the only way to make the CodifiedEnum list serialization work is using
-    [@file:UseSerializers][kotlinx.serialization.UseSerializers] (see explanation in [StringEnumListWrapper]) which
-    doesn't work correctly when there are two or more different CodifiedEnum lists in a single class.
-    */
     @Test
-    @Disabled("Two different CodifiedEnum lists in a single class won't work")
     fun `food basket should be deserialized`() {
         val stringifiedBasket = "{\"fruits\":[\"egnaro\",\"banana\"],\"vegetables\":[\"otatop\",\"tomato\"]}"
         val expectedBasket = FoodBasket(

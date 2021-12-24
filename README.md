@@ -10,7 +10,7 @@ At the moment, the main application of this library is making it easier to encod
 
 First, add JitPack to your repositories block in Gradle build script.
 
-```
+```kotlin
 repositories {
     maven("https://jitpack.io")
 }
@@ -20,14 +20,14 @@ repositories {
 
 Add the following dependency in order to access `CodifiedEnum` class.
 
-```
+```kotlin
 implementation("com.github.bright.codified:enums:1.5.2")
 ```
 
 `CodifiedEnum` is a sealed class which represents either "known" or "unknown" enum type depending on the `code`
 it is represented by. For example:
 
-```
+```kotlin
 enum class Fruit(override val code: String) : Codified<String> {
     APPLE("Apple")
 }
@@ -57,13 +57,13 @@ when (val orange = "Orange".codifiedEnum<Fruit>()) {
 Add the following dependency in order to access `CodifiedEnum` serializer using
 [Kotlin serialization](https://github.com/Kotlin/kotlinx.serialization).
 
-```
+```kotlin
 implementation("com.github.bright.codified:enums-serializer:1.5.2")
 ```
 
 Add `CodifiedSerializer` object for your enum class to handle both known and unknown enum types.
 
-```
+```kotlin
 enum class Fruit(override val code: String) : Codified<String> {
     APPLE("Apple");
 
@@ -89,4 +89,18 @@ Assertions.assertEquals(Fruit.APPLE, wrapperFromJsonWithApple.fruit.knownOrNull(
 val jsonWithOrange = "{\"fruit\":\"Orange\"}"
 val wrapperFromJsonWithOrange = json.parse(FruitWrapper.serializer(), jsonWithOrange)
 Assertions.assertEquals("Orange", wrapperFromJsonWithOrange.fruit.code())
+```
+
+#### Serialization of collections with CodifiedEnum ####
+
+When `CodifiedEnum` is a parameter of a collection such as `List`,
+`@Serializable` should be applied to `CodifiedEnum` - inside the
+collection type:
+
+```kotlin
+@Serializable
+data class FoodBasket(
+    val fruits: List<@Serializable(with = Fruit.CodifiedSerializer::class) CodifiedEnum<Fruit, String>>,
+    val vegetables: List<@Serializable(with = Vegetable.CodifiedSerializer::class) CodifiedEnum<Vegetable, String>>
+)
 ```
