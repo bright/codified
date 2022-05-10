@@ -21,7 +21,7 @@ repositories {
 Add the following dependency in order to access `CodifiedEnum` class.
 
 ```kotlin
-implementation("com.github.bright.codified:enums:1.6.10")
+implementation("com.github.bright.codified:enums:1.6.21")
 ```
 
 `CodifiedEnum` is a sealed class which represents either "known" or "unknown" enum type depending on the `code`
@@ -58,7 +58,7 @@ Add the following dependency in order to access `CodifiedEnum` serializer using
 [Kotlin serialization](https://github.com/Kotlin/kotlinx.serialization).
 
 ```kotlin
-implementation("com.github.bright.codified:enums-serializer:1.6.10")
+implementation("com.github.bright.codified:enums-serializer:1.6.21")
 ```
 
 Add `CodifiedSerializer` object for your enum class to handle both known and unknown enum types.
