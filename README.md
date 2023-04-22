@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/bright/codified.svg)](https://jitpack.io/#bright/codified)
+![build](https://github.com/bright/codified/actions/workflows/build.yml/badge.svg?branch=master)
 
 # codified #
 
@@ -8,11 +8,11 @@ At the moment, the main application of this library is making it easier to encod
 
 ## Installation and usage ##
 
-First, add JitPack to your repositories block in Gradle build script.
+First, make sure Maven Central is in your repositories block in Gradle build script.
 
 ```kotlin
 repositories {
-    maven("https://jitpack.io")
+    mavenCentral()
 }
 ```
 
@@ -21,7 +21,7 @@ repositories {
 Add the following dependency in order to access `CodifiedEnum` class.
 
 ```kotlin
-implementation("com.github.bright.codified:enums:1.6.21")
+implementation("dev.bright.codified:enums:1.6.21.1")
 ```
 
 `CodifiedEnum` is a sealed class which represents either "known" or "unknown" enum type depending on the `code`
@@ -58,7 +58,7 @@ Add the following dependency in order to access `CodifiedEnum` serializer using
 [Kotlin serialization](https://github.com/Kotlin/kotlinx.serialization).
 
 ```kotlin
-implementation("com.github.bright.codified:enums-serializer:1.6.21")
+implementation("dev.bright.codified:enums-serializer:1.6.21.1")
 ```
 
 Add `CodifiedSerializer` object for your enum class to handle both known and unknown enum types.

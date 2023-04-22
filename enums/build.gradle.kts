@@ -1,11 +1,7 @@
 plugins {
     kotlin("jvm")
+    id("default-config")
     id("default-java-publish")
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }
 
 dependencies {

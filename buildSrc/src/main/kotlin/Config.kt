@@ -1,5 +1,5 @@
 object Config {
-    val group = "pl.brightinventions.codified"
-    val version = "1.5.2"
-    val jvmTarget = "1.8"
+    val group = "dev.bright.codified"
+    val version = "1.6.21.1"
+    val jvmToolchain = 8
 }

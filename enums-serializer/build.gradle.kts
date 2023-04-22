@@ -1,12 +1,8 @@
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version Versions.kotlin
+    id("default-config")
     id("default-java-publish")
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }
 
 dependencies {
