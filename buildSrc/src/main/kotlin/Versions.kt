@@ -3,4 +3,5 @@ object Versions {
     const val junit = "5.6.2"
     const val shouldko = "0.2.2"
     const val serialization = "1.3.2"
+    const val jackson = "2.15.2"
 }

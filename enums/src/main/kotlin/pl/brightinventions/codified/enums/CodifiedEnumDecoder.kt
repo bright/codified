@@ -3,12 +3,10 @@ package pl.brightinventions.codified.enums
 import pl.brightinventions.codified.Codified
 import java.util.concurrent.ConcurrentHashMap
 
-@PublishedApi
-internal object CodifiedEnumDecoder {
+object CodifiedEnumDecoder {
     private val enumsSerializedNamed = ConcurrentHashMap<Class<*>, Map<String, Enum<*>>>()
 
-    @PublishedApi
-    internal fun <T> decode(value: String, clazz: Class<T>): CodifiedEnum<T, String>
+    fun <T> decode(value: String, clazz: Class<T>): CodifiedEnum<T, String>
             where T : Enum<T>, T : Codified<String> {
 
         val namesForEnum = enumsSerializedNamed.getOrPut(clazz) {
