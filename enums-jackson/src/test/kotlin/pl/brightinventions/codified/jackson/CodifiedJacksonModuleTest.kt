@@ -73,13 +73,23 @@ class CodifiedJacksonModuleTest {
     }
 
     @Test
-    fun `can serialize and deserialize not known value to enum property`() {
+    fun `can deserialize not known value to enum property`() {
         // given
         val input = """{"colour": "pink"}"""
         // when
         val output = objectMapper.readValue(input, HasColour::class.java)
         // then
         output.colour.shouldEqual(null)
+    }
+
+    @Test
+    fun `can deserialize known value to enum property`() {
+        // given
+        val input = """{"colour": "blue"}"""
+        // when
+        val output = objectMapper.readValue(input, HasColour::class.java)
+        // then
+        output.colour.shouldEqual(Colour.Blue)
     }
 
     @Test
