@@ -1,4 +1,4 @@
-package dev.codified.jackson
+package pl.brightinventions.codified.jackson
 
 import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.Module
