@@ -12,9 +12,21 @@ class CodifiedJacksonModuleTest {
     val objectMapper = ObjectMapper().findAndRegisterModules()
 
     @Test
-    fun `can serialize and deserialize known value to codified enum`() {
+    fun `can serialize and deserialize known value to codified enum with string`() {
         // given
         val input = Colour.Blue
+
+        // when
+        val output = serdeCodifiedEnum(input)
+
+        // then
+        output.knownOrNull().shouldEqual(input)
+    }
+
+    @Test
+    fun `can serialize and deserialize known value to codified enum with int`() {
+        // given
+        val input = Weight.Heavy
 
         // when
         val output = serdeCodifiedEnum(input)
@@ -37,9 +49,21 @@ class CodifiedJacksonModuleTest {
     }
 
     @Test
-    fun `can serialize and deserialize known value to enum property`() {
+    fun `can serialize and deserialize known value to enum property with string`() {
         // given
         val input = HasColour(Colour.Blue)
+
+        // when
+        val output = serde(input)
+
+        // then
+        output.shouldEqual(input)
+    }
+
+    @Test
+    fun `can serialize and deserialize known value to enum property with int`() {
+        // given
+        val input = HasWeight().apply { weight = Weight.Medium }
 
         // when
         val output = serde(input)
@@ -59,7 +83,7 @@ class CodifiedJacksonModuleTest {
     }
 
     @Test
-    fun `can serialize and deserialize known value to codified enum property`() {
+    fun `can deserialize known value to codified enum property`() {
         // given
         val input = HasCodifiedColour(Colour.Blue)
 
@@ -71,7 +95,7 @@ class CodifiedJacksonModuleTest {
     }
 
     @Test
-    fun `can serialize and deserialize not known value to codified enum property`() {
+    fun `can deserialize not known value to codified enum property`() {
         // given
         val input = HasCodifiedColour("pink")
         // when
@@ -84,6 +108,11 @@ class CodifiedJacksonModuleTest {
     private fun serdeCodifiedEnum(input: Colour): CodifiedEnum<Colour, String> {
         val json = objectMapper.writer().writeValueAsString(input)
         return objectMapper.readValue(json, object : TypeReference<CodifiedEnum<Colour, String>>() {})
+    }
+
+    private fun serdeCodifiedEnum(input: Weight): CodifiedEnum<Weight, Int> {
+        val json = objectMapper.writer().writeValueAsString(input)
+        return objectMapper.readValue(json, object : TypeReference<CodifiedEnum<Weight, Int>>() {})
     }
 
     private fun serdeCodifiedEnum(input: String): CodifiedEnum<Colour, String> {
@@ -122,8 +151,6 @@ class HasColour() {
     override fun hashCode(): Int {
         return colour?.hashCode() ?: 0
     }
-
-
 }
 
 class HasCodifiedColour() {
@@ -149,6 +176,27 @@ class HasCodifiedColour() {
     override fun hashCode(): Int {
         return colour?.hashCode() ?: 0
     }
-
-
 }
+
+
+@JsonDeserialize(using = CodifiedDeserializer::class)
+enum class Weight(override val code: Int) : Codified<Int> {
+    Light(200), Medium(400), Heavy(60);
+}
+
+class HasWeight {
+    var weight: Weight? = null
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as HasWeight
+
+        return weight == other.weight
+    }
+
+    override fun hashCode(): Int {
+        return weight?.hashCode() ?: 0
+    }
+}
+
