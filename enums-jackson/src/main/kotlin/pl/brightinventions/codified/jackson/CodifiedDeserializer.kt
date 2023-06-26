@@ -8,19 +8,22 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import pl.brightinventions.codified.Codified
 import pl.brightinventions.codified.enums.CodifiedEnumDecoder
+import java.lang.reflect.ParameterizedType
 
-class CodifiedDeserializer<T>() : JsonDeserializer<T>(),
-    ContextualDeserializer where T : Codified<String>, T : Enum<T> {
-    private lateinit var enumType: Class<T>
+class CodifiedDeserializer<TEnum, TCode : Any>() : JsonDeserializer<TEnum>(),
+    ContextualDeserializer where TEnum : Codified<TCode>, TEnum : Enum<TEnum> {
+    private lateinit var enumCodeType: Class<TCode>
+    private lateinit var enumType: Class<TEnum>
 
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): T? {
-        return CodifiedEnumDecoder.decode(p.valueAsString, enumType).knownOrNull()
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): TEnum? {
+        @Suppress("UNCHECKED_CAST")
+        return CodifiedEnumDecoder.decode(p.readValueAs(enumCodeType), enumType).knownOrNull()
     }
 
     override fun createContextual(
         ctxt: DeserializationContext,
         property: BeanProperty?
-    ): JsonDeserializer<T> {
+    ): JsonDeserializer<TEnum> {
         return CodifiedDeserializer(ctxt.contextualType)
     }
 
@@ -30,6 +33,7 @@ class CodifiedDeserializer<T>() : JsonDeserializer<T>(),
 
     @Suppress("UNCHECKED_CAST")
     constructor(contextualType: JavaType) : this() {
-        this.enumType = contextualType.rawClass as Class<T>
+        this.enumType = contextualType.rawClass as Class<TEnum>
+        this.enumCodeType = (enumType.genericInterfaces[0] as ParameterizedType).actualTypeArguments[0] as Class<TCode>
     }
 }
