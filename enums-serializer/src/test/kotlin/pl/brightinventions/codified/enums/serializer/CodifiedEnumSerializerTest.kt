@@ -152,4 +152,18 @@ class CodifiedEnumSerializerTest {
         val basket = json.decodeFromString(FoodBasket.serializer(), stringifiedBasket)
         basket.shouldEqual(expectedBasket)
     }
+
+    @Test
+    fun `mixed enum wrapper should be serialized`() {
+        val wrapper = MixedEnumWrapper(StringEnum.FOO.codifiedEnum(), IntEnum.QUX.codifiedEnum())
+        val string = json.encodeToString(MixedEnumWrapper.serializer(), wrapper)
+        string.shouldEqual("{\"stringEnum\":\"${StringEnum.FOO.code}\",\"intEnum\":${IntEnum.QUX.code}}")
+    }
+
+    @Test
+    fun `mixed enum wrapper should be deserialized`() {
+        val string = "{\"stringEnum\":\"${StringEnum.FOO.code}\",\"intEnum\":${IntEnum.QUX.code}}"
+        val wrapper = json.decodeFromString(MixedEnumWrapper.serializer(), string)
+        wrapper.shouldEqual(MixedEnumWrapper(StringEnum.FOO.codifiedEnum(), IntEnum.QUX.codifiedEnum()))
+    }
 }

@@ -36,6 +36,18 @@ class CodifiedJacksonModuleTest {
     }
 
     @Test
+    fun `can deserialize known value to codified enum with int from json`() {
+        // given
+        val input = 400
+
+        // when
+        val output = serdeCodifiedEnum(input)
+
+        // then
+        output.knownOrNull().shouldEqual(Weight.Medium)
+    }
+
+    @Test
     fun `can serialize and deserialize not known value to codified enum`() {
         // given
         val input = "pink"
@@ -128,6 +140,11 @@ class CodifiedJacksonModuleTest {
     private fun serdeCodifiedEnum(input: String): CodifiedEnum<Colour, String> {
         val json = objectMapper.writer().writeValueAsString(input)
         return objectMapper.readValue(json, object : TypeReference<CodifiedEnum<Colour, String>>() {})
+    }
+
+    private fun serdeCodifiedEnum(input: Int): CodifiedEnum<Weight, Int> {
+        val json = objectMapper.writer().writeValueAsString(input)
+        return objectMapper.readValue(json, object : TypeReference<CodifiedEnum<Weight, Int>>() {})
     }
 
     private inline fun <reified T> serde(input: T): T {
