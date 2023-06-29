@@ -4,4 +4,5 @@ object Versions {
     const val shouldko = "0.2.2"
     const val serialization = "1.5.1"
     const val jackson = "2.15.2"
+    const val gson = "2.10.1"
 }
