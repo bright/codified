@@ -54,6 +54,8 @@ when (val orange = "Orange".codifiedEnum<Fruit>()) {
 
 ### CodifiedEnum serialization ###
 
+#### kotlinx.serialization ####
+
 Add the following dependency in order to access `CodifiedEnum` serializer using
 [Kotlin serialization](https://github.com/Kotlin/kotlinx.serialization).
 
@@ -91,8 +93,6 @@ val wrapperFromJsonWithOrange = json.parse(FruitWrapper.serializer(), jsonWithOr
 Assertions.assertEquals("Orange", wrapperFromJsonWithOrange.fruit.code())
 ```
 
-#### Serialization of collections with CodifiedEnum ####
-
 When `CodifiedEnum` is a parameter of a collection such as `List`,
 `@Serializable` should be applied to `CodifiedEnum` - inside the
 collection type:
@@ -103,4 +103,20 @@ data class FoodBasket(
     val fruits: List<@Serializable(with = Fruit.CodifiedSerializer::class) CodifiedEnum<Fruit, String>>,
     val vegetables: List<@Serializable(with = Vegetable.CodifiedSerializer::class) CodifiedEnum<Vegetable, String>>
 )
+```
+
+#### Gson ####
+
+Add this dependency:
+
+```kotlin
+implementation("dev.bright.codified:enums-gson:1.8.22.1")
+```
+
+and register the `TypeAdapterFactory` for `CodifiedEnum`:
+
+```kotlin
+val gson = GsonBuilder()
+    .registerTypeAdapterFactory(CodifiedEnumTypeAdapter.Factory())
+    .create()
 ```
