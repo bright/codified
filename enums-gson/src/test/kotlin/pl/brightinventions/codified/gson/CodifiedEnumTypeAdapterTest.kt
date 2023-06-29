@@ -7,7 +7,7 @@ import pl.brightinventions.codified.enums.codifiedEnum
 import pl.miensol.shouldko.shouldEqual
 
 
-class GsonTest {
+class CodifiedEnumTypeAdapterTest {
 
     private val gson = GsonBuilder()
         .registerTypeAdapterFactory(CodifiedEnumTypeAdapter.Factory())
