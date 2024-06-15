@@ -21,7 +21,7 @@ repositories {
 Add the following dependency in order to access `CodifiedEnum` class.
 
 ```kotlin
-implementation("dev.bright.codified:enums:1.8.22.2")
+implementation("dev.bright.codified:enums:1.9.24.1")
 ```
 
 `CodifiedEnum` is a sealed class which represents either "known" or "unknown" enum type depending on the `code`
@@ -60,7 +60,7 @@ Add the following dependency in order to access `CodifiedEnum` serializer using
 [Kotlin serialization](https://github.com/Kotlin/kotlinx.serialization).
 
 ```kotlin
-implementation("dev.bright.codified:enums-serializer:1.8.22.2")
+implementation("dev.bright.codified:enums-serializer:1.9.24.1")
 ```
 
 Add `CodifiedSerializer` object for your enum class to handle both known and unknown enum types.
@@ -110,7 +110,7 @@ data class FoodBasket(
 Add this dependency:
 
 ```kotlin
-implementation("dev.bright.codified:enums-gson:1.8.22.2")
+implementation("dev.bright.codified:enums-gson:1.9.24.1")
 ```
 
 and register the `TypeAdapterFactory` for `CodifiedEnum`:
